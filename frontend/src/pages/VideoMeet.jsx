@@ -12,6 +12,8 @@ import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import ChatIcon from '@mui/icons-material/Chat'
 import { styled } from '@mui/material/styles';
 import server from '../environment';
+import { useNavigate } from 'react-router-dom';
+
 
 const server_url = server;
 
@@ -377,12 +379,16 @@ export default function VideoMeetComponent() {
         setScreen(!screen);
     }
 
+    const navigate = useNavigate();
+
+
     let handleEndCall = () => {
         try {
             let tracks = localVideoref.current.srcObject.getTracks()
             tracks.forEach(track => track.stop())
         } catch (e) { }
-        window.location.href = "/home"
+        // window.location.href = "/home"
+        navigate('/home');
     }
 
     let openChat = () => {
