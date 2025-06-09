@@ -11,12 +11,9 @@ import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import ChatIcon from '@mui/icons-material/Chat'
 import { styled } from '@mui/material/styles';
-import ChatBox from './ChatBox';
-import TextField from '@mui/material/TextField';
+import server from '../environment';
 
-// import server from '../environment';
-
-const server_url = "http://localhost:8000";
+const server_url = server;
 
 var connections = {};
 
