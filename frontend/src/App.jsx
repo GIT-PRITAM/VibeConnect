@@ -9,6 +9,9 @@ import HomeComponenet from './pages/home.jsx';
 import History from './pages/history.jsx';
 
 function App() {
+  useEffect(() => {
+    document.title = "VibeConnect"; // Set your custom tab title here
+  }, []);
 
   return (
     <>
