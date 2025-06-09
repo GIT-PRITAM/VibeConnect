@@ -7,6 +7,7 @@ import { AuthProvider } from './contexts/AuthContext.jsx';
 import VideoMeetComponent from './pages/VideoMeet.jsx';
 import HomeComponenet from './pages/home.jsx';
 import History from './pages/history.jsx';
+import { useEffect } from 'react';
 
 function App() {
   useEffect(() => {
