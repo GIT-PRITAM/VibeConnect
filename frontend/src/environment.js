@@ -1,4 +1,4 @@
-let IS_PROD = true;
+let IS_PROD = false;
 const LOCAL_URL = import.meta.env.VITE_LOCAL_BACKEND_URL;
 const PROD_URL = import.meta.env.VITE_PROD_BACKEND_URL;
 
