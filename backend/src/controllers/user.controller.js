@@ -61,17 +61,40 @@ const register = async (req, res) => {
     }
 }
 
-const getUserHistory = async (req, res) => {
-    const { token } = req.query;
+// const getUserHistory = async (req, res) => {
+//     const { token } = req.query;
 
+//     try {
+//         const user = await User.findOne({ token: token });
+//         const meetings = await Meeting.find({ user_id: user.username });
+//         res.json(meetings);
+//     } catch (e) {
+//         res.json({ message: `Something went wrong: ${e}` });
+//     }
+// }
+
+const getUserHistory = async (req, res) => {
     try {
-        const user = await User.findOne({ token: token });
+        const authHeader = req.headers.authorization;
+        const token = authHeader?.split(" ")[1];
+
+        if (!token) {
+            return res.status(401).json({ message: "Token missing" });
+        }
+
+        const user = await User.findOne({ token });
+
+        if (!user) {
+            return res.status(401).json({ message: "Invalid token" });
+        }
+
         const meetings = await Meeting.find({ user_id: user.username });
-        res.json(meetings);
+        res.status(200).json(meetings);
     } catch (e) {
-        res.json({ message: `Something went wrong: ${e}` });
+        res.status(500).json({ message: `Something went wrong: ${e}` });
     }
-}
+};
+
 
 const addToHistory = async (req, res) => {
     const { token, meeting_code } = req.body;
