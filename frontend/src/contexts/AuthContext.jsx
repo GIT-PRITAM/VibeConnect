@@ -10,6 +10,23 @@ const client = axios.create({
     baseURL: `${server}/api/v1/users`
 })
 
+//axios interceptor
+
+client.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem("token");
+
+        if (token && token !== "undefined") {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
+
+
 export const AuthProvider = ({ children }) => {
 
     const authContext = useContext(AuthContext);
@@ -42,7 +59,7 @@ export const AuthProvider = ({ children }) => {
                 password: password
             });
 
-            if (request.status === httpStatus.OK) {
+            if (request.status === httpStatus.OK && request.data?.token) {
                 localStorage.setItem("token", request.data.token);
                 router("/home")
             }
@@ -54,11 +71,7 @@ export const AuthProvider = ({ children }) => {
     const getHistoryOfUser = async () => {
 
         try {
-            let request = await client.get("/get_all_activity", {
-                params: {
-                    token: localStorage.getItem("token"),
-                }
-            });
+            let request = await client.get("/get_all_activity");
             return request.data;
         } catch (err) {
             throw err;
@@ -68,7 +81,6 @@ export const AuthProvider = ({ children }) => {
     const addToUserHistory = async (meetingCode) => {
         try {
             let request = await client.post("/add_to_activity", {
-                token: localStorage.getItem("token"),
                 meeting_code: meetingCode
             });
             return request
